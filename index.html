@@ -35,7 +35,12 @@
     </div>
     <footer><a href="https://github.com/sinraw7x">sinraw7x</a></footer>
     <script>
+
+	// Tarkov time is 7 seconds per real life seconds
+	    
         const ratio = 7;
+
+	// Function to calculate tarkov time
 
         const time = function(left) {
             const oneDay = 1000 * 60 * 60 * 24;
@@ -48,10 +53,14 @@
             // Calculating tarkov time
             const tarkovTime = new Date((offset + (time.getTime() * ratio)) % oneDay);
 
+	    // Convert tarkov time to HHMMSS
+
             const tarkovTimeHMS = [tarkovTime.getUTCHours(), tarkovTime.getUTCMinutes(), tarkovTime.getUTCSeconds()].map(i => i.toString().padStart(2, '0')).join(':');
 
             return tarkovTimeHMS;
         }
+
+	// Loop to change the text
 
         setInterval(function(){ 
             document.getElementById("timeLeft").innerHTML=time(true);
