@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarkov Time</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+        body{
+            font-family: 'Quicksand', sans-serif;
+            background: #000;
+            color: #FFF;
+            text-align: center;
+        }
+        .time {
+            font-size: 100px;
+        }
+        footer {
+            position: absolute;
+            bottom: 0;
+            left: 50%
+        }
+        a:visited {
+            text-decoration: none;
+            color: #FFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tarkov Time</h1>
+    <h2>A really hacky way of knowing tarkov's ingame time</h2>
+    <div class="time">
+        <span id="timeLeft"></span> - <span id="timeRight"></span>
+    </div>
+    <footer><a href="https://github.com/sinraw7x">sinraw7x</a></footer>
+    <script>
+        const ratio = 7;
+
+        const time = function(left) {
+            const oneDay = 1000 * 60 * 60 * 24;
+            const russiaTime = 1000 * 60 * 60 * 3;
+            const twelveHours  = 1000 * 60 * 60 * 12;
+            const time = new Date();
+
+            const offset = russiaTime + (left ? 0 : twelveHours);
+
+            // Calculating tarkov time
+            const tarkovTime = new Date((offset + (time.getTime() * ratio)) % oneDay);
+
+            const tarkovTimeHMS = [tarkovTime.getUTCHours(), tarkovTime.getUTCMinutes(), tarkovTime.getUTCSeconds()].map(i => i.toString().padStart(2, '0')).join(':');
+
+            return tarkovTimeHMS;
+        }
+
+        setInterval(function(){ 
+            document.getElementById("timeLeft").innerHTML=time(true);
+            document.getElementById("timeRight").innerHTML=time();
+        }, 100);
+    </script>
+</body>
+</html>
